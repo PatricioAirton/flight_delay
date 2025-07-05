@@ -9,7 +9,7 @@ avaliador = Avaliador()
 pipeline = Pipeline()
 
 # Parâmetros    
-url_dados = "./MachineLearning/data/test_dataset_diabetes.csv"
+url_dados = "./MachineLearning/data/test_dataset_flights.csv"
 colunas = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
 
 # Carga dos dados
@@ -22,7 +22,7 @@ y = array[:,-1]
 # O nome do método a ser testado necessita começar com "test_"
 def test_modelo_lr():  
     # Importando o modelo de regressão logística
-    lr_path = './MachineLearning/models/diabetes_lr.pkl'
+    lr_path = './MachineLearning/models/flights_lr.pkl'
     modelo_lr = modelo.carrega_modelo(lr_path)
 
     # Obtendo as métricas da Regressão Logística
@@ -38,7 +38,7 @@ def test_modelo_lr():
 # Método para testar modelo KNN a partir do arquivo correspondente
 def test_modelo_knn():
     # Importando modelo de KNN
-    knn_path = './MachineLearning/models/diabetes_knn.pkl'
+    knn_path = './MachineLearning/models/flights_knn.pkl'
     modelo_knn = modelo.carrega_modelo(knn_path)
 
     # Obtendo as métricas do KNN
@@ -54,7 +54,7 @@ def test_modelo_knn():
 # Método para testar pipeline Random Forest a partir do arquivo correspondente
 def test_modelo_rf():
     # Importando pipeline de Random Forest
-    rf_path = './MachineLearning/pipelines/rf_diabetes_pipeline.pkl'
+    rf_path = './MachineLearning/pipelines/rf_flights_pipeline.pkl'
     modelo_rf = pipeline.carrega_pipeline(rf_path)
 
     # Obtendo as métricas do Random Forest

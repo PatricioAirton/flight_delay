@@ -15,10 +15,10 @@
      <!-- Cabeçalho de informações do sistema -->
     <header>
         <div class="title">
-            <h2>Bem-Vindo ao AI Diabetes System</h2>
+            <h2>Bem-Vindo ao AI Flight System</h2>
             <br>
-            <p>Este sistema foi desenvolvido para auxiliar no diagnóstico de diabetes.</p>
-            <p>Para isso, basta preencher os campos abaixo com os dados do paciente e clicar em "Diagnosticar".</p>
+            <p>Este sistema foi desenvolvido para auxiliar na previsão de atrasos de voo.</p>
+            <p>Para isso, basta preencher os campos abaixo com os dados do voo e clicar em "Analisar".</p>
         </div>
         <!-- <div class="banner">
             <img src="img/home.jpeg">
@@ -28,31 +28,33 @@
      <!-- Opções para adicionar um novo item -->
      
     <section class="newItem">
-        <input type="text" id="newInput" placeholder="Nome">
-        <input type="text" id="newPreg" placeholder="Pregancies">
-        <input type="text" id="newPlas" placeholder="Glucose">
-        <input type="text" id="newPres" placeholder="Blood Pressure">
-        <input type="text" id="newSkin" placeholder="Skin Thickness">
-        <input type="text" id="newTest" placeholder="Insulin">
-        <input type="text" id="newMass" placeholder="BMI">
-        <input type="text" id="newPedi" placeholder="Diabetes Pedigree Function">
-        <input type="text" id="newAge" placeholder="Age">
-        <button type="button" onclick="newItem(event)" class="addBtn">Diagnosticar</button>
+        <input type="text" id="newInput" placeholder="Name">
+        <input type="text" id="newDay" placeholder="Day">
+        <input type="text" id="newDay_of_week" placeholder="Day of week">
+        <input type="text" id="newAirline" placeholder="Airline">
+        <input type="text" id="Flight_Number" placeholder="Flight Number">
+        <input type="text" id="newTail_Number" placeholder="Tail Number">
+        <input type="text" id="newOrigin_Airport" placeholder="Origin Airport">
+        <input type="text" id="newDestination_Airport" placeholder="Destination Airport">
+        <input type="text" id="newDeparture_Delay" placeholder="Departure Delay">
+        <input type="text" id="newScheduled_Arrival" placeholder="Scheduled Arrival">
+        <button type="button" onclick="newItem(event)" class="addBtn">Analisar</button>
     </section>    <!-- Tabela com items existentes -->
     <section class="items">
         <div class="table-container">
             <table id="myTable">
                 <tr>
-                    <th>Nome</th>
-                    <th>Pregancies</th>
-                    <th>Glucose</th>
-                    <th>Blood Pressure</th>
-                    <th>Skin Thickness</th>
-                    <th>Insulin</th>
-                    <th>BMI</th>
-                    <th>Diabetes Pedigree Function</th>
-                    <th>Age</th>
-                    <th>Diagnostic</th>
+                    <th>Name</th>
+                    <th>Day</th>
+                    <th>Day of Week</th>
+                    <th>Airline</th>
+                    <th>Flight Number</th>
+                    <th>Tail Number</th>
+                    <th>Origin Airport</th>
+                    <th>Destination Airport</th>
+                    <th>Departure Delay</th>
+                    <th>Scheduled Arrival</th>
+                    <th>Analysis</th>
                     <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15" height="15"></th>
                     <!-- <th><img src="img/edit.png" width="15" height="15"></th> -->
                 </tr>

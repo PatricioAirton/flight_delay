@@ -18,7 +18,7 @@ class Model:
         return self.model
     
     def preditor(self, X_input):
-        """Realiza a predição de um paciente com base no modelo treinado
+        """Realiza a predição de um flight com base no modelo treinado
         """
         if self.model is None:
             raise Exception('Modelo não foi carregado. Use carrega_modelo() primeiro.')

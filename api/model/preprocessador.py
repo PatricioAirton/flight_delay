@@ -34,14 +34,15 @@ class PreProcessador:
     
     def preparar_form(self, form):
         """ Prepara os dados recebidos do front para serem usados no modelo. """
-        X_input = np.array([form.preg, 
-                            form.plas, 
-                            form.pres, 
-                            form.skin, 
-                            form.test, 
-                            form.mass, 
-                            form.pedi, 
-                            form.age
+        X_input = np.array([form.day, 
+                            form.day_of_week, 
+                            form.airline, 
+                            form.flight_number, 
+                            form.tail_number, 
+                            form.origin_airport, 
+                            form.destination_airport, 
+                            form.departure_delay,
+                            form.schedule_arrival
                         ])
         # Faremos o reshape para que o modelo entenda que estamos passando
         X_input = X_input.reshape(1, -1)
@@ -50,6 +51,6 @@ class PreProcessador:
     def scaler(self, X_train):
         """ Normaliza os dados. """
         # normalização/padronização
-        scaler = pickle.load(open('./MachineLearning/scalers/minmax_scaler_diabetes.pkl', 'rb'))
+        scaler = pickle.load(open('./MachineLearning/scalers/minmax_scaler_flights.pkl', 'rb'))
         reescaled_X_train = scaler.transform(X_train)
         return reescaled_X_train
