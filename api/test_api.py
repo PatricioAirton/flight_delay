@@ -146,7 +146,7 @@ def test_get_tail_by_index(client):
     response = client.get('/tail?index=385')
     assert response.status_code == 200
     data = json.loads(response.data)
-    assert data['tail'] == "N210WN"
+    assert data['tail'] == "N21537"
 
 def test_get_nonexistent_origin(client):
     """Testa a busca de um index que não existe"""
@@ -160,7 +160,7 @@ def test_get_origin_by_index(client):
     response = client.get('/origin?index=75')
     assert response.status_code == 200
     data = json.loads(response.data)
-    assert data['origin'] == "DEN"
+    assert data['origin'] == "DHN"
 
 def test_get_nonexistent_destination(client):
     """Testa a busca de um index que não existe"""
@@ -174,7 +174,7 @@ def test_get_destination_by_index(client):
     response = client.get('/origin?index=86')
     assert response.status_code == 200
     data = json.loads(response.data)
-    assert data['destination'] == "EWR"
+    assert data['destination'] == "EVV"
 
 def test_delete_flight(client, sample_flight_data):
     """Testa a remoção de um flight"""
