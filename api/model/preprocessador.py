@@ -34,15 +34,15 @@ class PreProcessador:
     
     def preparar_form(self, form):
         """ Prepara os dados recebidos do front para serem usados no modelo. """
-        X_input = np.array([form.day, 
-                            form.day_of_week, 
-                            form.airline, 
-                            form.flight_number, 
-                            form.tail_number, 
-                            form.origin_airport, 
-                            form.destination_airport, 
-                            form.departure_delay,
-                            form.schedule_arrival
+        X_input = np.array([form.day,
+                            form.week,
+                            form.airline,
+                            form.flight_no,
+                            form.tail,
+                            form.origin,
+                            form.destination,
+                            form.dep_delay,
+                            form.schedule_arrival 	
                         ])
         # Faremos o reshape para que o modelo entenda que estamos passando
         X_input = X_input.reshape(1, -1)

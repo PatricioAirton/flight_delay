@@ -16,16 +16,16 @@ def client():
 def sample_flight_data():
     """Dados de exemplo para teste de flight"""
     return {
-        "name": "Voo para LA primeira semana",
+        "name": "Voo LA prim semana",
         "day": 3,
-        "day_of_week": 2,
+        "week": 2,
         "airline": 3,
-        "flight_number": 98,
-        "tail_numer": 500,
-        "origin_airport": 16,
-        "destination_airport": 273,
-        "departure_delay": -8.0,
-        "scheduled_arrival":415
+        "flight_no": 98,
+        "tail": 500,
+        "origin": 16,
+        "destination": 273,
+        "dep_delay": -8.0,
+        "schedule_arrival": 415
     }
 
 def test_home_redirect(client):
@@ -40,7 +40,7 @@ def test_docs_redirect(client):
     assert response.status_code == 302
     assert '/openapi' in response.location
 
-def test_get_pacientes_empty(client):
+def test_get_flights_empty(client):
     """Testa a listagem de flights quando não há nenhum"""
     response = client.get('/flights')
     assert response.status_code == 200
@@ -48,7 +48,7 @@ def test_get_pacientes_empty(client):
     assert 'flights' in data
     assert isinstance(data['flights'], list)
 
-def test_add_flight_prediction(client, sample_flights_data):
+def test_add_flight_prediction(client, sample_flight_data):
     """Testa a adição de um flight com predição"""
     # Primeiro, vamos limpar qualquer flight existente com o mesmo nome
     session = Session()
@@ -66,24 +66,24 @@ def test_add_flight_prediction(client, sample_flights_data):
     assert response.status_code == 200
     data = json.loads(response.data)
     
-    # Verifica se o fligfht foi criado com todas as informações
+    # Verifica se o flight foi criado com todas as informações
     assert data['name'] == sample_flight_data['name']
     assert data['day'] == sample_flight_data['day']
-    assert data['day_of_week'] == sample_flight_data['day_of_week']
+    assert data['week'] == sample_flight_data['week']
     assert data['airline'] == sample_flight_data['airline']
-    assert data['flight_number'] == sample_flight_data['flight_number']
-    assert data['tail_number'] == sample_flight_data['tail_number']
-    assert data['origin_airport'] == sample_flight_data['origin_airport']
-    assert data['destination_airport'] == sample_flight_data['destination_airport']
-    assert data['departure_delay'] == sample_flight_data['departure_delay']
-    assert data['scheduled_arrival'] == sample_flight_data['scheduled_arrival']
+    assert data['flight_no'] == sample_flight_data['flight_no']
+    assert data['tail'] == sample_flight_data['tail']
+    assert data['origin'] == sample_flight_data['origin']
+    assert data['destination'] == sample_flight_data['destination']
+    assert data['dep_delay'] == sample_flight_data['dep_delay']
+    assert data['schedule_arrival'] == sample_flight_data['schedule_arrival']
     
     # Verifica se a predição foi feita (delay deve estar presente)
-    assert 'delay_detected' in data
-    assert data['delay_detected'] in [0, 1]  # Deve ser 0 (sem atraso) ou 1 (com atraso)
+    assert 'delay' in data
+    assert data['delay'] in [0, 1]  # Deve ser 0 (sem atraso) ou 1 (com atraso)
 
 def test_add_duplicate_flight(client, sample_flight_data):
-    """Testa a adição de um paciente duplicado"""
+    """Testa a adição de um flight duplicado"""
     # Primeiro adiciona o flight
     client.post('/flight', 
                 data=json.dumps(sample_flight_data),
@@ -117,7 +117,64 @@ def test_get_nonexistent_flight(client):
     response = client.get('/flight?name=FlightInexistente')
     assert response.status_code == 404
     data = json.loads(response.data)
-    assert 'mesage' in data  # Note: há um typo no código original ("mesage" em vez de "message")
+    assert 'message' in data  
+
+
+def test_get_nonexistent_airline(client):
+    """Testa a busca de um index que não existe"""
+    response = client.get('/airline?index=55')
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'message' in data  
+
+def test_get_airline_by_index(client):
+    # Busca airline por index
+    response = client.get('/airline?index=5')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data['airline'] == "F9"
+
+def test_get_nonexistent_tail(client):
+    """Testa a busca de um index que não existe"""
+    response = client.get('/tail?index=9000')
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'message' in data  
+
+def test_get_tail_by_index(client):
+    # Busca tail por index
+    response = client.get('/tail?index=385')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data['tail'] == "N210WN"
+
+def test_get_nonexistent_origin(client):
+    """Testa a busca de um index que não existe"""
+    response = client.get('/origin?index=500')
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'message' in data      
+
+def test_get_origin_by_index(client):
+    # Busca origin por index
+    response = client.get('/origin?index=75')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data['origin'] == "DEN"
+
+def test_get_nonexistent_destination(client):
+    """Testa a busca de um index que não existe"""
+    response = client.get('/destination?index=500')
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'message' in data    
+
+def test_get_destination_by_index(client):
+    # Busca destination por index
+    response = client.get('/origin?index=86')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data['destination'] == "EWR"
 
 def test_delete_flight(client, sample_flight_data):
     """Testa a remoção de um flight"""
@@ -144,16 +201,16 @@ def test_prediction_edge_cases(client):
     """Testa casos extremos para predição"""
     # Teste com valores mínimos
     min_data = {
-        "name": "Paciente Minimo",
-        "day": 0,
+        "name": "Flight Minimo",
+        "day": 1,
+        "week": 1,
         "airline": 0,
-        "flight_number": 0,
-        "tail_number": 0,
-        "origin_airport": 0,
-        "destination_airport": 0.0,
-        "departure_delay": 0.0,
-        "scheduled_arrival": 0,
-        "delay_detected": 0,
+        "flight_no": 4,
+        "tail": 5,
+        "origin": 0,
+        "destination": 2,
+        "dep_delay": -21.0,
+        "schedule_arrival": 3.0
     }
     
     response = client.post('/flight', 
@@ -161,20 +218,20 @@ def test_prediction_edge_cases(client):
                           content_type='application/json')
     assert response.status_code == 200
     data = json.loads(response.data)
-    assert 'outcome' in data
+    assert 'delay' in data
     
     # Teste com valores máximos típicos
     max_data = {
-        "name": "Paciente Minimo",
-        "day": 0,
-        "airline": 0,
-        "flight_number": 0,
-        "tail_number": 0,
-        "origin_airport": 0,
-        "destination_airport": 0.0,
-        "departure_delay": 0.0,
-        "scheduled_arrival": 0,
-        "delay_detected": 0,
+        "name": "Flight Maximo",
+        "day": 30,
+        "week": 7,
+        "airline": 13,
+        "flight_no": 7432,
+        "tail": 3580,
+        "origin": 278,
+        "destination": 276,
+        "dep_delay": 985.0,
+        "schedule_arrival": 2359.0
     }
     
     response = client.post('/flight', 
@@ -182,13 +239,13 @@ def test_prediction_edge_cases(client):
                           content_type='application/json')
     assert response.status_code == 200
     data = json.loads(response.data)
-    assert 'outcome' in data
+    assert 'delay' in data
 
 def cleanup_test_flights():
     """Limpa flights de teste do banco"""
     session = Session()
     test_flights = session.query(Flight).filter(
-        Flight.name.in_(['João Silva', 'Paciente Minimo', 'Paciente Maximo'])
+        Flight.name.in_(['Voo LA prim semana', 'Flight Minimo', 'Flight Maximo'])
     ).all()
     
     for flight in test_flights:

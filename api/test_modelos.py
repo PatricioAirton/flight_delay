@@ -10,7 +10,7 @@ pipeline = Pipeline()
 
 # Parâmetros    
 url_dados = "./MachineLearning/data/test_dataset_flights.csv"
-colunas = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
+colunas = ['day', 'week', 'airline', 'flight_no', 'tail', 'origin', 'destination', 'dep_delay', 'schedule_arrival', 'class']
 
 # Carga dos dados
 dataset = carregador.carregar_dados(url_dados, colunas)
@@ -67,4 +67,3 @@ def test_modelo_rf():
     # assert precisao_rf >= 0.5 
     # assert f1_rf >= 0.5
     
-

@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="styles.css">
 
-    <title>AI Diabetes System</title>
+    <title>AI Flight System</title>
     <link rel="icon" href="img/home_logo.jpeg" type="image/png">
 </head>
 
@@ -30,14 +30,31 @@
     <section class="newItem">
         <input type="text" id="newInput" placeholder="Name">
         <input type="text" id="newDay" placeholder="Day">
-        <input type="text" id="newDay_of_week" placeholder="Day of week">
-        <input type="text" id="newAirline" placeholder="Airline">
-        <input type="text" id="Flight_Number" placeholder="Flight Number">
-        <input type="text" id="newTail_Number" placeholder="Tail Number">
-        <input type="text" id="newOrigin_Airport" placeholder="Origin Airport">
-        <input type="text" id="newDestination_Airport" placeholder="Destination Airport">
-        <input type="text" id="newDeparture_Delay" placeholder="Departure Delay">
-        <input type="text" id="newScheduled_Arrival" placeholder="Scheduled Arrival">
+        <select id="newWeek" name="Day of Week">
+            <option value="" disabled selected>Choose a Week Day</option>
+            <option value="1">Sunday</option>
+            <option value="2">Monday</option>
+            <option value="3">Tueday</option>
+            <option value="4">Wednesday</option>
+            <option value="5">Thursday</option>
+            <option value="6">Friday</option>
+            <option value="7">Saturday</option>
+        </select>
+        <select id="newAirline" name="Airline">
+            <option value="" disabled selected>Choose an airline</option>
+        </select>
+        <input type="text" id="newFlightNo" placeholder="Flight Number">
+        <select id="newTail" name="Tail">
+            <option value="" disabled selected>Choose a tail number</option>
+        </select>
+        <select id="newOrigin" name="Origin Airport">
+            <option value="" disabled selected>Choose an origin airport</option>
+        </select>
+        <select id="newDestination" name="Destination Airport">
+            <option value="" disabled selected>Choose a destination airport</option>
+        </select>
+        <input type="text" id="newDepDelay" placeholder="Departure Delay">
+        <input type="text" id="newScheduleArrival" placeholder="Schedule Arrival">
         <button type="button" onclick="newItem(event)" class="addBtn">Analisar</button>
     </section>    <!-- Tabela com items existentes -->
     <section class="items">
@@ -53,8 +70,8 @@
                     <th>Origin Airport</th>
                     <th>Destination Airport</th>
                     <th>Departure Delay</th>
-                    <th>Scheduled Arrival</th>
-                    <th>Analysis</th>
+                    <th>Schedule Arrival</th>
+                    <th>Delay Analysis</th>
                     <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15" height="15"></th>
                     <!-- <th><img src="img/edit.png" width="15" height="15"></th> -->
                 </tr>
@@ -62,9 +79,9 @@
         </div>
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="scripts.js"></script>
 </body>
 
 </html>
-
 

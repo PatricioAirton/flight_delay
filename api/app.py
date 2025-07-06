@@ -24,7 +24,23 @@ home_tag = Tag(
 )
 flight_tag = Tag(
     name="Flight",
-    description="Adição, visualização, remoção e predição de flights com Diabetes",
+    description="Adição, visualização, remoção e predição de flights com Delay",
+)
+airline_tag = Tag(
+    name="Airline",
+    description="Visualização de Airlines",
+)
+tail_tag = Tag(
+    name="Tail",
+    description="Visualização de Matriculas",
+)
+origin_tag = Tag(
+    name="Origin",
+    description="Visualização de Aeroportos de Origem",
+)
+destination_tag = Tag(
+    name="Destination",
+    description="Visualização de Aeroportos de Destino",
 )
 
 
@@ -40,6 +56,122 @@ def home():
 def docs():
     """Redireciona para /openapi, tela que permite a escolha do estilo de documentação."""
     return redirect("/openapi")
+
+
+# Rota de listagem de aeroporto de destino
+@app.get(
+    "/destinations",
+    tags=[destination_tag],
+    responses={"200": DestinationViewSchema, "404": ErrorSchema},
+)
+def get_destinations():
+    """Lista todos os aeroportos de destino cadastrados na base
+    Args:
+       none
+
+    Returns:
+        list: lista de aeroportos de destino cadastrados na base
+    """
+    logger.debug("Coletando dados sobre todos os aeroportos de destino")
+    # Criando conexão com a base
+    session = Session()
+    # Buscando todos os aeroportos de destino
+    destinations = session.query(Destination).all()
+
+    if not destinations:
+        # Se não houver aeroportos de destino
+        return {"Aeroportos de Destino": []}, 200
+    else:
+        logger.debug(f"%d Aeroportos de destino econtrados" % len(destinations))
+        print(destinations)
+        return apresenta_destinations(destinations), 200
+
+
+# Rota de listagem de aeroporto de origem
+@app.get(
+    "/origins",
+    tags=[origin_tag],
+    responses={"200": OriginViewSchema, "404": ErrorSchema},
+)
+def get_origins():
+    """Lista todos os aeroportos de origem cadastrados na base
+    Args:
+       none
+
+    Returns:
+        list: lista de aeroportos de origem cadastrados na base
+    """
+    logger.debug("Coletando dados sobre todos os aeroportos de origem")
+    # Criando conexão com a base
+    session = Session()
+    # Buscando todos os aeroportos de origem
+    origins = session.query(Origin).all()
+
+    if not origins:
+        # Se não houver aeroportos de origem
+        return {"Aeroportos de Origem": []}, 200
+    else:
+        logger.debug(f"%d Aeroportos de origem econtrados" % len(origins))
+        print(origins)
+        return apresenta_origins(origins), 200
+
+
+# Rota de listagem de matriculas
+@app.get(
+    "/tails",
+    tags=[tail_tag],
+    responses={"200": TailViewSchema, "404": ErrorSchema},
+)
+def get_tails():
+    """Lista todos as matriculas cadastradas na base
+    Args:
+       none
+
+    Returns:
+        list: lista de matriculas cadastradas na base
+    """
+    logger.debug("Coletando dados sobre todas as matriculas")
+    # Criando conexão com a base
+    session = Session()
+    # Buscando todos as matriculas
+    tails = session.query(Tail).all()
+
+    if not tails:
+        # Se não houver matriculas
+        return {"Tails": []}, 200
+    else:
+        logger.debug(f"%d Matriculas econtradas" % len(tails))
+        print(tails)
+        return apresenta_tails(tails), 200
+
+
+# Rota de listagem de cias aereas
+@app.get(
+    "/airlines",
+    tags=[airline_tag],
+    responses={"200": AirlineViewSchema, "404": ErrorSchema},
+)
+def get_airlines():
+    """Lista todos as cias aereas cadastradas na base
+    Args:
+       none
+
+    Returns:
+        list: lista de cias aereas cadastradas na base
+    """
+    logger.debug("Coletando dados sobre todas as cias aereas")
+    # Criando conexão com a base
+    session = Session()
+    # Buscando todos as cias aereas
+    airlines = session.query(Airline).all()
+
+    if not airlines:
+        # Se não houver airlines
+        return {"Airlines": []}, 200
+    else:
+        logger.debug(f"%d Airlines econtradas" % len(airlines))
+        print(airlines)
+        return apresenta_airlines(airlines), 200
 
 
 # Rota de listagem de flights
@@ -82,8 +214,8 @@ def get_flights():
     },
 )
 def predict(form: FlightSchema):
-    """Adiciona um novo voo à base de dados
-    Retorna uma representação dos flights e o possíveis atrasos nos voos.
+    """Adiciona um novo flight à base de dados
+    Retorna uma representação dos flights e delays associados.
 
     """
     # Instanciando classes
@@ -93,14 +225,14 @@ def predict(form: FlightSchema):
     # Recuperando os dados do formulário
     name = form.name
     day = form.day
-    day_of_week = form.day_of_week
+    week = form.week
     airline = form.airline
-    flight_number = form.flight_number
-    tail_number = form.tail_number
-    origin_airport = form.origin_airport
-    destination_airport = form.destination_airport
-    departure_delay = form.departure_delay
-    scheduled_arrival = form.scheduled_arrival
+    flight_no = form.flight_no
+    tail = form.tail
+    origin = form.origin
+    destination = form.destination
+    dep_delay = form.dep_delay
+    schedule_arrival = form.schedule_arrival 	
 
     # Preparando os dados para o modelo
     X_input = preprocessador.preparar_form(form)
@@ -108,36 +240,36 @@ def predict(form: FlightSchema):
     model_path = "./MachineLearning/pipelines/rf_flights_pipeline.pkl"
     modelo = pipeline.carrega_pipeline(model_path)
     # Realizando a predição
-    delay_detected = int(modelo.predict(X_input)[0])
+    delay = int(modelo.predict(X_input)[0])
 
     flight = Flight(
         name=name,
         day=day,
-        day_of_week=day_of_week,
+        week=week,
         airline=airline,
-        flight_number=flight_number,
-        tail_number=tail_number,
-        origin_airport=origin_airport,
-        destination_airport=destination_airport,
-        departure_delay = departure_delay,
-        scheduled_arrival=scheduled_arrival,
-        delay_detected= delay_detected
+        flight_no=flight_no,
+        tail=tail,
+        origin=origin,
+        destination=destination,
+        dep_delay=dep_delay,
+        schedule_arrival=schedule_arrival,
+        delay=delay,
     )
-    logger.debug(f"Adicionando produto de nome: '{flight.name}'")
+    logger.debug(f"Adicionando voo de nome: '{flight.name}'")
 
     try:
         # Criando conexão com a base
         session = Session()
 
-        # Checando se o voo já existe na base
+        # Checando se flight já existe na base
         if session.query(Flight).filter(Flight.name == form.name).first():
-            error_msg = "Voo já existente na base :/"
+            error_msg = "Flight já existente na base :/"
             logger.warning(
                 f"Erro ao adicionar flight '{flight.name}', {error_msg}"
             )
             return {"message": error_msg}, 409
 
-        # Adicionando flight
+        # Adicionando paciente
         session.add(flight)
         # Efetivando o comando de adição
         session.commit()
@@ -181,19 +313,177 @@ def get_flight(query: FlightBuscaSchema):
     )
 
     if not flight:
-        # se o paciente não foi encontrado
+        # se o flight não foi encontrado
         error_msg = f"Flight {flight_nome} não encontrado na base :/"
         logger.warning(
-            f"Erro ao buscar voo '{flight_nome}', {error_msg}"
+            f"Erro ao buscar flight '{flight_nome}', {error_msg}"
         )
-        return {"mesage": error_msg}, 404
+        return {"message": error_msg}, 404
     else:
-        logger.debug(f"Flight encontrado: '{flight.name}'")
+        logger.debug(f"Flight econtrado: '{flight.name}'")
         # retorna a representação do flight
         return apresenta_flight(flight), 200
 
 
-# Rota de remoção de voo por nome
+
+# Métodos baseados em indice
+# Rota de busca de aeroportos de destino por indice
+@app.get(
+    "/destination",
+    tags=[destination_tag],
+    responses={"200": DestinationViewSchema, "404": ErrorSchema},
+)
+def get_destination(query: DestinationBuscaSchema):
+    """Faz a busca por um aeroporto de destino cadastrado na base a partir do indice
+
+    Args:
+        indice (int): indice do aeroporto de destino
+
+    Returns:
+        dict: representação do aeroporto de destino
+    """
+
+    destination_index = query.index
+    logger.debug(f"Coletando dados sobre aeroporto de destino #{destination_index}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    destination = (
+        session.query(Destination).filter(Destination.index == destination_index).first()
+    )
+
+    if not destination:
+        # se o aeroporto de destino não foi encontrado
+        error_msg = f"Aeroporto de destino {destination_index} não encontrado na base :/"
+        logger.warning(
+            f"Erro ao buscar aeroporto de destino '{destination_index}', {error_msg}"
+        )
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Aeroporto de destino econtrado: '{destination.index}'")
+        # retorna a representação do aeroporto de destino
+        return apresenta_destination(destination), 200
+
+
+
+# Métodos baseados em indice
+# Rota de busca de aeroportos de origem por indice
+@app.get(
+    "/origin",
+    tags=[origin_tag],
+    responses={"200": OriginViewSchema, "404": ErrorSchema},
+)
+def get_origin(query: OriginBuscaSchema):
+    """Faz a busca por um aeroporto de origem cadastrado na base a partir do indice
+
+    Args:
+        indice (int): indice do aeroporto de origem
+
+    Returns:
+        dict: representação do aeroporto de origem
+    """
+
+    origin_index = query.index
+    logger.debug(f"Coletando dados sobre aeroporto de origem #{origin_index}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    origin = (
+        session.query(Origin).filter(Origin.index == origin_index).first()
+    )
+
+    if not origin:
+        # se o aeroporto de origem não foi encontrado
+        error_msg = f"Aeroporto de origem {origin_index} não encontrado na base :/"
+        logger.warning(
+            f"Erro ao buscar aeroporto de origem '{origin_index}', {error_msg}"
+        )
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Aeroporto de origem econtrado: '{origin.index}'")
+        # retorna a representação do aeroporto de origem
+        return apresenta_origin(origin), 200
+
+
+# Métodos baseados em indice
+# Rota de busca de matricula por indice
+@app.get(
+    "/tail",
+    tags=[tail_tag],
+    responses={"200": TailViewSchema, "404": ErrorSchema},
+)
+def get_tail(query: TailBuscaSchema):
+    """Faz a busca por uma matricula cadastrada na base a partir do indice
+
+    Args:
+        indice (int): indice da matricula
+
+    Returns:
+        dict: representação da matricula
+    """
+
+    tail_index = query.index
+    logger.debug(f"Coletando dados sobre matricula #{tail_index}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    tail = (
+        session.query(Tail).filter(Tail.index == tail_index).first()
+    )
+
+    if not tail:
+        # se a cia aerea não foi encontrada
+        error_msg = f"Matricula {tail_index} não encontrada na base :/"
+        logger.warning(
+            f"Erro ao buscar matricula '{tail_index}', {error_msg}"
+        )
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Matricula econtrada: '{tail.index}'")
+        # retorna a representação da matricula
+        return apresenta_tail(tail), 200
+
+
+# Métodos baseados em indice
+# Rota de busca de airline por indice
+@app.get(
+    "/airline",
+    tags=[airline_tag],
+    responses={"200": AirlineViewSchema, "404": ErrorSchema},
+)
+def get_airline(query: AirlineBuscaSchema):
+    """Faz a busca por uma cia aerea cadastrada na base a partir do indice
+
+    Args:
+        indice (int): indice da cia aerea
+
+    Returns:
+        dict: representação da cia aerea
+    """
+
+    airline_index = query.index
+    logger.debug(f"Coletando dados sobre cia aerea #{airline_index}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    airline = (
+        session.query(Airline).filter(Airline.index == airline_index).first()
+    )
+
+    if not airline:
+        # se a cia aerea não foi encontrada
+        error_msg = f"Cia aerea {airline_index} não encontrada na base :/"
+        logger.warning(
+            f"Erro ao buscar cia aerea '{airline_index}', {error_msg}"
+        )
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Cia aerea econtrada: '{airline.index}'")
+        # retorna a representação da cia aerea
+        return apresenta_airline(airline), 200
+
+
+# Rota de remoção de flight por nome
 @app.delete(
     "/flight",
     tags=[flight_tag],

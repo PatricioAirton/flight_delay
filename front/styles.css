@@ -309,6 +309,14 @@ table{
         min-width: 140px;
         max-width: 200px;
     }
+    .newItem select {
+        padding: 10px 15px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        min-width: 140px;
+        max-width: 200px;
+    }
 }
 
 tr:nth-child(odd){
@@ -325,15 +333,14 @@ tr:hover {
 }
 
 /* Diagnostic styling */
-.diagnostic-positive {
+.analysis-positive {
     background-color: #ffebee !important;
     color: #c62828;
     font-weight: bold;
 }
 
-.diagnostic-negative {
+.analysis-negative {
     background-color: #e8f5e8 !important;
     color: #2e7d32;
     font-weight: bold;
 }
-
