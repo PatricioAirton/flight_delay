@@ -1,72 +1,42 @@
-[2025-07-06 11:03:22,265] ERROR log_exception() L1414 Exception on /flights [GET] - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask/app.py L1414
-Traceback (most recent call last):
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
-    self.dialect.do_execute(
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 943, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.OperationalError: no such column: flights.Origin
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask/app.py", line 2190, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask/app.py", line 1486, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask_cors/extension.py", line 176, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask/app.py", line 1484, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask/app.py", line 1469, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/flask_openapi3/scaffold.py", line 127, in view_func
-    response = func(**func_kwargs)
-               ^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/api/app.py", line 195, in get_flights
-    flights = session.query(Flight).all()
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2704, in all
-    return self._iter().all()  # type: ignore
-           ^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2857, in _iter
-    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
-                                                  ^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2365, in execute
-    return self._execute_internal(
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2251, in _execute_internal
-    result: Result[Any] = compile_state_cls.orm_execute_statement(
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
-    result = conn.execute(
-             ^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1415, in execute
-    return meth(
-           ^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
-    return connection._execute_clauseelement(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1637, in _execute_clauseelement
-    ret = self._execute_context(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1842, in _execute_context
-    return self._exec_single_context(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1982, in _exec_single_context
-    self._handle_dbapi_exception(
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2351, in _handle_dbapi_exception
-    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
-    self.dialect.do_execute(
-  File "/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 943, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: flights.Origin
-[SQL: SELECT flights.id AS flights_id, flights."Name" AS "flights_Name", flights."Day" AS "flights_Day", flights."Day_of_Week" AS "flights_Day_of_Week", flights."Airline" AS "flights_Airline", flights."Flight_Number" AS "flights_Flight_Number", flights."Tail_Number" AS "flights_Tail_Number", flights."Origin" AS "flights_Origin", flights."Destination" AS "flights_Destination", flights."DepartureDelay" AS "flights_DepartureDelay", flights."ScheduleArrival" AS "flights_ScheduleArrival", flights."DelayDetected" AS "flights_DelayDetected", flights.data_insercao AS flights_data_insercao 
-FROM flights]
-(Background on this error at: https://sqlalche.me/e/20/e3q8)
-[2025-07-06 11:03:22,283] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 11:03:22] "[35m[1mGET /flights?nome=1 HTTP/1.1[0m" 500 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:43:01,725] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:43:01] "DELETE /flight?name=Teste%201 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,220] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "GET /flights?nome=Teste%201 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,315] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "POST /flight HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,325] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "GET /flights HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,326] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "GET /airlines HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,344] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "GET /origins HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,351] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "GET /destinations HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:28,454] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:28] "GET /tails HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:29,906] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:29] "GET /airline?index=0 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:29,997] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:29] "GET /tail?index=3425 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:30,001] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:30] "GET /origin?index=165 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:46:30,004] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:46:30] "GET /destination?index=16 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,695] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "GET /flights?nome=Teste%202 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,778] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "POST /flight HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,790] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "GET /flights HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,793] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "GET /airlines HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,807] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "GET /origins HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,810] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "GET /destinations HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:28,835] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:28] "GET /tails HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,388] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /airline?index=0 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,388] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /airline?index=3 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,473] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /tail?index=3425 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,475] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /tail?index=1514 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,480] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /origin?index=165 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,480] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /origin?index=140 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,484] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /destination?index=16 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:47:31,485] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:47:31] "GET /destination?index=146 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,387] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "GET /flights?nome=Teste%203 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,477] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "POST /flight HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,486] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "GET /flights HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,490] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "GET /airlines HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,503] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "GET /origins HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,506] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "GET /destinations HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:47,610] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:47] "GET /tails HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:51,936] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:51] "GET /airline?index=3 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:51,937] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:51] "GET /airline?index=0 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:51,941] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:51] "GET /airline?index=5 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:52,039] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:52] "GET /tail?index=1514 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:52,039] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:52] "GET /tail?index=3425 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:52,041] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:52] "GET /tail?index=2300 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:52,045] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:52] "GET /origin?index=140 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  
+[2025-07-06 18:48:52,045] INFO _log() L97   127.0.0.1 - - [06/Jul/2025 18:48:52] "GET /origin?index=165 HTTP/1.1" 200 - - call_trace=/Users/josepatricio/Desktop/MVP2/flight_delay/back/lib/python3.12/site-packages/werkzeug/_internal.py L97  

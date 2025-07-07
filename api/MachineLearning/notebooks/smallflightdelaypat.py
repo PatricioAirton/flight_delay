@@ -51,12 +51,12 @@ from sklearn.ensemble import GradientBoostingClassifier
 """
 
 # Informa a URL de importação do dataset
-DatasetPath = kagglehub.dataset_download("eminhashimi/flight-delay-dataset")
-print("Path to dataset files:", DatasetPath)
+url = "https://raw.githubusercontent.com/PatricioAirton/flight_delay/refs/heads/main/api/MachineLearning/notebooks/flights_test.csv"
 
-FlightDataset = pd.read_csv(DatasetPath+"/flights_test.csv", delimiter=',')
+# Lê o arquivo 
+FlightDataset = pd.read_csv(url, delimiter=',')
 
-# displaying the contents of the Test XLSX file
+# Mostra as primeiras linhas do dataset
 FlightDataset.head()
 
 """##Pre Processamento do dataset carregado"""
